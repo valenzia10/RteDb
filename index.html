@@ -11,8 +11,10 @@
 
   <p > Add a new port, or select an existing one to edit it </p>
 
-  <div ng-controller="portsController">
-    <ul id="ports-list">
+  <div ng-view />
+  
+  <script type="text/ng-template" id="port-list-view.html">
+    <ul id="port-list">
       <li ng-repeat="port in ports">
         <span>{{port.name}}</span>
         <button> Edit </button>
@@ -20,10 +22,11 @@
     </ul>
     
     <button ng-click="clicked()"> Add a new port </button>
-  </div>  
+  </script>  
   
   
-  <script src="./js/angular.min.js"></script>
+  <script src="./js/angular.js"></script>
+  <script src="./js/angular-route.js"></script>
   <script src="./js/app.js"></script>
 </body>
 
