@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app>
+<html ng-app = "rteDbApp">
 
 <head>
   <title> RteDb - Port definition tool  </title>
@@ -11,14 +11,20 @@
 
   <p > Add a new port, or select an existing one to edit it </p>
 
-  <div>
-    <input type="text" ng-model="ppp"/>
-    <p> {{ppp}} </p>  
+  <div ng-controller="portsController">
+    <ul id="ports-list">
+      <li ng-repeat="port in ports">
+        <span>{{port.name}}</span>
+        <button> Edit </button>
+      </li>
+    </ul>
+    
+    <button ng-click="clicked()"> Add a new port </button>
   </div>  
   
   
   <script src="./js/angular.min.js"></script>
-
+  <script src="./js/app.js"></script>
 </body>
 
 
