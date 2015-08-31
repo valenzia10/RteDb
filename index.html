@@ -23,11 +23,11 @@
       <tr ng-repeat="port in ports">
         <td> {{port.name}} </td>
         <td> {{port.provider}} </td>
-        <td> <button> Edit </button> </td>
+        <td> <button ng-click="clicked(port.name)"> Edit </button> </td>
       </tr>
     </table>
     
-    <button ng-click="clicked()"> Add a new port </button>
+    <button ng-click="clicked(false)"> Add a new port </button>
   </script>  
   
   <script type="text/ng-template" id="port-info-view.html">

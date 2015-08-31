@@ -8,17 +8,23 @@ rteDbApp.config(['$routeProvider', function($routeProvider){
         controller: 'portsController',
         templateUrl: 'port-list-view.html'
       })
-    .when('/port-info', {
+    .when('/port-info/:portName', {
         controller: 'portInfoController',
         templateUrl: 'port-info-view.html'
       })
+    .when('/port-info', {
+      controller: 'portInfoController',
+      templateUrl: 'port-info-view.html'
+    })
     .otherwise({redirectTo: '/'});
 }]);
 
 
 // Services
 rteDbApp.factory('portObject', function() {
-    var ports = {
+    var portObjectService = {};
+    
+    portObjectService.ports = {
       "signalA":{
                     "name": "signalA",
                     "provider": "InjectorStrategy"
@@ -29,21 +35,27 @@ rteDbApp.factory('portObject', function() {
                   }
       };
 
-    return ports;
+    return portObjectService;
 });
 
 
 // Controllers
 rteDbApp.controller('portsController', function($scope, portObject){
-  $scope.ports = portObject;
-  $scope.clicked = function(){
-    window.location.href = window.location.href + 'port-info';
+  $scope.ports = portObject.ports;
+  $scope.clicked = function(n){
+    if(n){
+      window.location.href = window.location.href + 'port-info/' + n;
+    }else{
+      window.location.href = window.location.href + 'port-info';
+    }
   };
 });
 
-rteDbApp.controller('portInfoController', function($scope, portObject){
+rteDbApp.controller('portInfoController', function($scope, $routeParams, portObject){
+  alert($routeParams.portName);
+  
   $scope.save = function(){
-    portObject[$scope.portName] = 
+    portObject.ports[$scope.portName] = 
         {
           "name": $scope.portName,
           "provider": $scope.portProvider
