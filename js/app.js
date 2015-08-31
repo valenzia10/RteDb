@@ -8,11 +8,15 @@ rteDbApp.config(['$routeProvider', function($routeProvider){
         controller: 'portsController',
         templateUrl: 'port-list-view.html'
       })
+    .when('/port-info', {
+        controller: 'portInfoController',
+        templateUrl: 'port-info-view.html'
+      })
     .otherwise({redirectTo: '/'});
 }]);
 
-rteDbApp.controller('portsController', function ($scope) {
-  $scope.ports = [
+rteDbApp.controller('portsController', function($scope,$rootScope){
+  $rootScope.ports = [
     {
       "name": "signalA",
       "provider": "InjectorStrategy"
@@ -22,6 +26,17 @@ rteDbApp.controller('portsController', function ($scope) {
        "provider": "PumpingStrategy"
      }];
   $scope.clicked = function(){
-    alert('here man!');
+    window.location.href = window.location.href + 'port-info';
+  };
+});
+
+rteDbApp.controller('portInfoController', function($scope){
+  $scope.save = function(){
+    alert(JSON.stringify($scope.ports));
+    window.history.back();
+  };
+  
+  $scope.cancel = function(){
+    window.history.back();
   };
 });

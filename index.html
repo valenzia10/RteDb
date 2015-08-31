@@ -9,11 +9,11 @@
 
   <h1> RteDb - Port definition tool </h1>
 
-  <p > Add a new port, or select an existing one to edit it </p>
-
   <div ng-view />
   
   <script type="text/ng-template" id="port-list-view.html">
+    <p > Add a new port, or select an existing one to edit it </p>
+    
     <table id="port-list">
       <tr>
         <td> Name </td>
@@ -30,6 +30,89 @@
     <button ng-click="clicked()"> Add a new port </button>
   </script>  
   
+  <script type="text/ng-template" id="port-info-view.html">
+    <p> Edit port information </p>
+    
+    <table id="port-info">
+      <tr>
+        <td> Name: </td>
+        <td>
+          <input id="port-name" type="text"/>
+        </td>
+      </tr>
+      <tr>
+        <td> Provider SW-C: </td>
+        <td>
+          <input id="port-provider" type="text"/>
+        </td>
+      </tr>
+      <tr>
+        <td> Data type: </td>
+        <td> 
+          <select id="port-data-type">
+            <option value="BOOL"> BOOL </option>
+            <option value="UI_8"> UI_8 </option>
+            <option value="UI_16"> UI_16 </option>
+            <option value="UI_32"> UI_32 </option>
+            <option value="SI_8"> SI_8 </option>
+            <option value="SI_16"> SI_16 </option>
+            <option value="SI_32"> SI_32 </option>
+            <option value="FL_32"> FL_32 </option>
+          </select> 
+        </td>
+      </tr>
+      <tr>
+        <td> Initial physical value: </td>
+        <td>
+          <input id="port-init" type="number" step="0.000001"/>
+        </td>
+      </tr>
+      <tr>
+        <td> Physical unit: </td>
+        <td>
+          <input id="port-unit" type="text"/>
+        </td>
+      </tr>
+      <tr>
+        <td> Internal to physical resolution: </td>
+        <td>
+          <input id="port-resolution" type="number" step="0.000001"/>
+        </td>
+      </tr>
+      <tr>
+        <td> Internal to physical offset: </td>
+        <td>
+          <input id="port-offset" type="number" step="0.000001"/>
+        </td>
+      </tr>
+      <tr>
+        <td> Signal type: </td>
+        <td>
+          <select id="port-signal-type">
+            <option value="internal"> Internal </option>
+            <option value="tx"> CAN TX </option>
+            <option value="rx"> CAN RX </option>
+            <option value="stub"> Stub </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td> Internal to CAN resolution (optional, same as DBC): </td>
+        <td>
+          <input id="port-can-resolution" type="number" step="0.000001"/>
+        </td>
+      </tr>
+      <tr>
+        <td> Internal to CAN offset (optional, same as DBC): </td>
+        <td>
+          <input id="port-can-offset" type="number" step="0.000001"/>
+        </td>
+      </tr>
+    </table>
+    
+    <button ng-click="save()"> Save info </button>
+    <button ng-click="cancel()"> Cancel </button>
+  </script>
   
   <script src="./js/angular.js"></script>
   <script src="./js/angular-route.js"></script>
