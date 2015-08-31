@@ -14,12 +14,18 @@
   <div ng-view />
   
   <script type="text/ng-template" id="port-list-view.html">
-    <ul id="port-list">
-      <li ng-repeat="port in ports">
-        <span>{{port.name}}</span>
-        <button> Edit </button>
-      </li>
-    </ul>
+    <table id="port-list">
+      <tr>
+        <td> Name </td>
+        <td> Provider SW-C </td>
+        <td/>
+      </tr>
+      <tr ng-repeat="port in ports">
+        <td> {{port.name}} </td>
+        <td> {{port.provider}} </td>
+        <td> <button> Edit </button> </td>
+      </tr>
+    </table>
     
     <button ng-click="clicked()"> Add a new port </button>
   </script>  

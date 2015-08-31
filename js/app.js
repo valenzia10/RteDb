@@ -12,7 +12,15 @@ rteDbApp.config(['$routeProvider', function($routeProvider){
 }]);
 
 rteDbApp.controller('portsController', function ($scope) {
-  $scope.ports = [{"name": "signalA"},{"name": "signalB"}];
+  $scope.ports = [
+    {
+      "name": "signalA",
+      "provider": "InjectorStrategy"
+     },
+     {
+       "name": "signalB",
+       "provider": "PumpingStrategy"
+     }];
   $scope.clicked = function(){
     alert('here man!');
   };
