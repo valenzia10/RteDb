@@ -97,13 +97,19 @@
         </td>
       </tr>
       <tr>
-        <td> Internal to CAN resolution (optional, same as DBC): </td>
+        <td> CAN signal name (DBC): </td>
+        <td>
+          <input id="port-can-name" type="text" ng-model="portCanName" />
+        </td>
+      </tr>
+      <tr>
+        <td> CAN  to physical resolution (optional, same as DBC): </td>
         <td>
           <input id="port-can-resolution" type="number" step="0.000001"/>
         </td>
       </tr>
       <tr>
-        <td> Internal to CAN offset (optional, same as DBC): </td>
+        <td> CAN to physical offset (optional, same as DBC): </td>
         <td>
           <input id="port-can-offset" type="number" step="0.000001"/>
         </td>
