@@ -23,8 +23,7 @@ rteDbApp.config(['$routeProvider', function($routeProvider){
 // Services
 rteDbApp.factory('portObject', function() {
     var portObjectService = {};
-    
-    portObjectService.ports = {
+    var port_list = {
       "signalA":{
                     "name": "signalA",
                     "provider": "InjectorStrategy"
@@ -34,6 +33,12 @@ rteDbApp.factory('portObject', function() {
                     "provider": "PumpingStrategy"
                   }
       };
+      
+    portObjectService.ports = port_list;
+    
+    portObjectService.add = function(n,p){
+      port_list[n] = p;
+    };
 
     return portObjectService;
 });
@@ -52,15 +57,15 @@ rteDbApp.controller('portsController', function($scope, portObject){
 });
 
 rteDbApp.controller('portInfoController', function($scope, $routeParams, portObject){
-  alert($routeParams.portName);
+  
   
   $scope.save = function(){
-    portObject.ports[$scope.portName] = 
-        {
+    var port_to_add = {
           "name": $scope.portName,
           "provider": $scope.portProvider
         };
         
+    portObject.add($scope.portName, port_to_add);        
     window.history.back();
   };
   
