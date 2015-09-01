@@ -39,6 +39,10 @@ rteDbApp.factory('portObject', function() {
     portObjectService.add = function(n,p){
       port_list[n] = p;
     };
+    
+    portObjectService.get = function(n){
+      return port_list[n];
+    };
 
     return portObjectService;
 });
@@ -57,7 +61,13 @@ rteDbApp.controller('portsController', function($scope, portObject){
 });
 
 rteDbApp.controller('portInfoController', function($scope, $routeParams, portObject){
-  
+  // Check if editing an existing port to populate fields with port current info
+  if($routeParams.portName){
+    var port_to_edit = portObject.get($routeParams.portName);
+    
+    $scope.portName = port_to_edit.name;
+    $scope.portProvider = port_to_edit.provider; 
+  }
   
   $scope.save = function(){
     var port_to_add = {
