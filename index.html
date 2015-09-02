@@ -43,21 +43,16 @@
       <tr>
         <td> Provider SW-C: </td>
         <td>
-          <input id="port-provider" type="text" ng-model="portProvider" />
+          <select id="port-provider" ng-model="portProvider" 
+                                     ng-options="prov for prov in providers">
+          </select> 
         </td>
       </tr>
       <tr>
         <td> Data type: </td>
         <td> 
-          <select id="port-data-type">
-            <option value="BOOL"> BOOL </option>
-            <option value="UI_8"> UI_8 </option>
-            <option value="UI_16"> UI_16 </option>
-            <option value="UI_32"> UI_32 </option>
-            <option value="SI_8"> SI_8 </option>
-            <option value="SI_16"> SI_16 </option>
-            <option value="SI_32"> SI_32 </option>
-            <option value="FL_32"> FL_32 </option>
+          <select id="port-data-type" ng-model="portType" 
+                                      ng-options="typ for typ in types">
           </select> 
         </td>
       </tr>
@@ -88,11 +83,8 @@
       <tr>
         <td> Signal type: </td>
         <td>
-          <select id="port-signal-type">
-            <option value="internal"> Internal </option>
-            <option value="tx"> CAN TX </option>
-            <option value="rx"> CAN RX </option>
-            <option value="stub"> Stub </option>
+          <select id="port-signal-type" ng-model="portType" 
+                                        ng-options="sigt for sigt in sig_types">
           </select>
         </td>
       </tr>
@@ -122,6 +114,7 @@
   
   <script src="./js/angular.js"></script>
   <script src="./js/angular-route.js"></script>
+  <script src="./js/data.js"></script>
   <script src="./js/app.js"></script>
 </body>
 

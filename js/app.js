@@ -61,6 +61,11 @@ rteDbApp.controller('portsController', function($scope, portObject){
 });
 
 rteDbApp.controller('portInfoController', function($scope, $routeParams, portObject){
+  // Populate <select> options
+  $scope.types = basic_types; 
+  $scope.providers = arch_modules;
+  $scope.sig_types = signal_types;
+  
   // Check if editing an existing port to populate fields with port current info
   if($routeParams.portName){
     var port_to_edit = portObject.get($routeParams.portName);
