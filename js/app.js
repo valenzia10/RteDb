@@ -103,7 +103,8 @@ rteDbApp.controller('portInfoController', function($scope, $routeParams, portObj
   
   $scope.save = function(){
     // If port already exists, alert and do nothing
-    if(!port_old_name && portObject.exists($scope.portName)){
+    if( (!port_old_name  || port_old_name !== $scope.portName)
+        && portObject.exists($scope.portName) ){
       alert('This port name already exists, please choose a different one.')
       return;
     }
@@ -111,8 +112,20 @@ rteDbApp.controller('portInfoController', function($scope, $routeParams, portObj
     // If new port or edit of existing one, construct port object
     var port_to_add = {
           "name": $scope.portName,
-          "provider": $scope.portProvider
+          "provider": $scope.portProvider,
+          "data_type": $scope.portType,
+          "initial": $scope.portInit,
+          "unit": $scope.portUnit,
+          "resolution": $scope.portRes,
+          "offset": $scope.portOffs,
+          "signal_type": $scope.portSigType
         };
+    
+    if(port_to_add.signal_type === 'Rx' || port_to_add.signal_type === 'Tx'){
+      port_to_add.can_signal = $scope.portCanSignal,
+      port_to_add.can_resolution = $scope.portCanRes,
+      port_to_add.can_offset = $scope.portCanOffs
+    }
         
     portObject.add($scope.portName, port_to_add);
     
