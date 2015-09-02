@@ -12,3 +12,31 @@ var arch_modules = [
 ];
 
 var signal_types = ['Internal', 'Rx', 'Tx', 'Stub'];
+
+
+// Test port info
+var port_data = {
+	"signalA":{
+				"name": "signalA",
+				"provider": "InjectorStrategy",
+				"data_type": "BOOL",
+				"initial": "0",
+				"unit": "-",
+				"resolution": "1",
+				"offset": "0",
+				"signal_type": "Internal"
+				},
+	"signalB":{
+				"name": "signalB",
+				"provider": "PumpingStrategy",
+				"data_type": "UI_8",
+				"initial": "0",
+				"unit": "V",
+				"resolution": "0.001",
+				"offset": "0",
+				"signal_type": "Tx",
+				"can_signal": "MotorSpeed",
+				"can_resolution": "0.25",
+				"can_offset": "-100"
+				}
+};

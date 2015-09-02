@@ -59,31 +59,31 @@
       <tr>
         <td> Initial physical value: </td>
         <td>
-          <input id="port-init" type="number" step="0.000001"/>
+          <input id="port-init" type="text" ng-model="portInit" />
         </td>
       </tr>
       <tr>
         <td> Physical unit: </td>
         <td>
-          <input id="port-unit" type="text"/>
+          <input id="port-unit" type="text" ng-model="portUnit" />
         </td>
       </tr>
       <tr>
         <td> Internal to physical resolution: </td>
         <td>
-          <input id="port-resolution" type="number" step="0.000001"/>
+          <input id="port-resolution" type="text" ng-model="portRes" />
         </td>
       </tr>
       <tr>
         <td> Internal to physical offset: </td>
         <td>
-          <input id="port-offset" type="number" step="0.000001"/>
+          <input id="port-offset" type="text" ng-model="portOffs" />
         </td>
       </tr>
       <tr>
         <td> Signal type: </td>
         <td>
-          <select id="port-signal-type" ng-model="portType" 
+          <select id="port-signal-type" ng-model="portSigType" 
                                         ng-options="sigt for sigt in sig_types">
           </select>
         </td>
@@ -91,19 +91,19 @@
       <tr>
         <td> CAN signal name (DBC): </td>
         <td>
-          <input id="port-can-name" type="text" ng-model="portCanName" />
+          <input id="port-can-name" type="text" ng-model="portCanSignal" />
         </td>
       </tr>
       <tr>
         <td> CAN  to physical resolution (optional, same as DBC): </td>
         <td>
-          <input id="port-can-resolution" type="number" step="0.000001"/>
+          <input id="port-can-resolution" type="text" ng-model="portCanRes" />
         </td>
       </tr>
       <tr>
         <td> CAN to physical offset (optional, same as DBC): </td>
         <td>
-          <input id="port-can-offset" type="number" step="0.000001"/>
+          <input id="port-can-offset" type="text" ng-model="portCanOffs" />
         </td>
       </tr>
     </table>

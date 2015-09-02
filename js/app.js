@@ -23,16 +23,7 @@ rteDbApp.config(['$routeProvider', function($routeProvider){
 // Services
 rteDbApp.factory('portObject', function() {
     var portObjectService = {};
-    var port_list = {
-      "signalA":{
-                    "name": "signalA",
-                    "provider": "InjectorStrategy"
-                },
-      "signalB":{
-                    "name": "signalB",
-                    "provider": "PumpingStrategy"
-                  }
-      };
+    var port_list = port_data;
       
     portObjectService.ports = port_list;
     
@@ -72,6 +63,25 @@ rteDbApp.controller('portInfoController', function($scope, $routeParams, portObj
     
     $scope.portName = port_to_edit.name;
     $scope.portProvider = port_to_edit.provider; 
+    $scope.portType = port_to_edit.data_type;
+    $scope.portInit = port_to_edit.initial;
+    $scope.portUnit = port_to_edit.unit;
+    $scope.portRes = port_to_edit.resolution;
+    $scope.portOffs = port_to_edit.offset;
+    $scope.portSigType = port_to_edit.signal_type;
+    
+    if(port_to_edit.signal_type === 'Rx' || port_to_edit.signal_type === 'Tx'){
+      $scope.portCanSignal = port_to_edit.can_signal;
+      $scope.portCanRes = port_to_edit.can_resolution;
+      $scope.portCanOffs = port_to_edit.can_offset;
+    }
+  }else{
+    // Provide some typical defaults to user
+    $scope.portType = 'BOOL';
+    $scope.portInit = '0';
+    $scope.portRes = '1';
+    $scope.portOffs = '0';
+    $scope.portSigType = 'Internal';
   }
   
   $scope.save = function(){
