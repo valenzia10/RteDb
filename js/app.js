@@ -54,12 +54,18 @@ rteDbApp.factory('portObject', function() {
 // Controllers
 rteDbApp.controller('portsController', function($scope, portObject){
   $scope.ports = portObject.ports;
+  
   $scope.clicked = function(n){
     if(n){
       window.location.href = window.location.href + 'port-info/' + n;
     }else{
       window.location.href = window.location.href + 'port-info';
     }
+  };
+  
+  $scope.remove = function(n){
+    alert('You are going to delete port ' + n);
+    portObject.delete(n);
   };
 });
 
