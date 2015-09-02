@@ -34,6 +34,18 @@ rteDbApp.factory('portObject', function() {
     portObjectService.get = function(n){
       return port_list[n];
     };
+    
+    portObjectService.delete = function(n){
+      delete port_list[n];
+    };
+    
+    portObjectService.exists = function(n){
+      if(n in port_list){
+        return true;
+      }else{
+        return false;
+      }
+    };
 
     return portObjectService;
 });
@@ -52,6 +64,8 @@ rteDbApp.controller('portsController', function($scope, portObject){
 });
 
 rteDbApp.controller('portInfoController', function($scope, $routeParams, portObject){
+  var port_old_name = null;
+  
   // Populate <select> options
   $scope.types = basic_types; 
   $scope.providers = arch_modules;
@@ -60,6 +74,9 @@ rteDbApp.controller('portInfoController', function($scope, $routeParams, portObj
   // Check if editing an existing port to populate fields with port current info
   if($routeParams.portName){
     var port_to_edit = portObject.get($routeParams.portName);
+    
+    // Store current port name to detect and process a name change when saving info
+    port_old_name = port_to_edit.name;
     
     $scope.portName = port_to_edit.name;
     $scope.portProvider = port_to_edit.provider; 
@@ -85,12 +102,25 @@ rteDbApp.controller('portInfoController', function($scope, $routeParams, portObj
   }
   
   $scope.save = function(){
+    // If port already exists, alert and do nothing
+    if(!port_old_name && portObject.exists($scope.portName)){
+      alert('This port name already exists, please choose a different one.')
+      return;
+    }
+    
+    // If new port or edit of existing one, construct port object
     var port_to_add = {
           "name": $scope.portName,
           "provider": $scope.portProvider
         };
         
-    portObject.add($scope.portName, port_to_add);        
+    portObject.add($scope.portName, port_to_add);
+    
+    // If name changed, removed legacy port object info
+    if(port_old_name && port_old_name !== port_to_add.name){
+      portObject.delete(port_old_name);  
+    }
+         
     window.history.back();
   };
   
