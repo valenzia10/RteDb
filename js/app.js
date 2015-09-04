@@ -37,6 +37,9 @@ rteDbApp.factory('portObject', function() {
       var re;
       var re_result = null;
       
+      // Port data reset to empty
+      port_list = {};
+      
       // Find and add regular ports
       re = /DEFINE_PORT.+/g;
       re_result = s.match(re);
