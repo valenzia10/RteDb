@@ -46,6 +46,42 @@ rteDbApp.factory('portObject', function() {
         return false;
       }
     };
+    
+    portObjectService.generateFiles = function(){
+      var db_file = "{\n";
+      var h_file = "";
+      var c_file = "";
+      
+      for(var p in port_list){
+        // Generate db entry
+        db_file += '"'+ p + '":\n';
+        db_file += "    {\n";
+        for(var d in port_list[p]){
+          db_file += '    "'+ d + '": "' + port_list[p][d] +'",\n';
+        }
+        db_file += '    },\n';
+        
+        // Generate header file entry
+        
+        
+        // Generate source file entry
+        // switch(port_list[p].signal_type){
+        //   case 'Internal':
+        //     break;
+        //   case 'Rx':
+        //   case 'Tx':
+        //     break;
+        //   case 'Stub':
+        //     break;
+        //   default:
+        //     break;
+        // }
+      }
+        // Close db file
+        db_file += "}";
+        
+        return [db_file, h_file, c_file];
+    }
 
     return portObjectService;
 });
@@ -66,6 +102,11 @@ rteDbApp.controller('portsController', function($scope, portObject){
   $scope.remove = function(n){
     alert('You are going to delete port ' + n);
     portObject.delete(n);
+  };
+  
+  $scope.generate = function(){
+    // Open new windows with files content
+    window.open('data:text/plain;charset=utf-8,' + encodeURIComponent(portObject.generateFiles()[0]));
   };
 });
 
