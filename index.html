@@ -96,19 +96,19 @@
           </select>
         </td>
       </tr>
-      <tr>
+      <tr ng-show="portSigType == 'Tx' || portSigType == 'Rx'">
         <td> CAN signal name (DBC): </td>
         <td>
           <input id="port-can-name" type="text" ng-model="portCanSignal" />
         </td>
       </tr>
-      <tr>
+      <tr ng-show="portSigType == 'Tx' || portSigType == 'Rx'">
         <td> CAN  to physical resolution (optional, same as DBC): </td>
         <td>
           <input id="port-can-resolution" type="text" ng-model="portCanRes" />
         </td>
       </tr>
-      <tr>
+      <tr ng-show="portSigType == 'Tx' || portSigType == 'Rx'">
         <td> CAN to physical offset (optional, same as DBC): </td>
         <td>
           <input id="port-can-offset" type="text" ng-model="portCanOffs" />
