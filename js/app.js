@@ -184,8 +184,11 @@ rteDbApp.controller('portsController', function($scope, portObject){
   };
   
   $scope.remove = function(n){
-    alert('You are going to delete port ' + n);
-    portObject.delete(n);
+    var d = confirm('You are going to delete port ' + n);
+    
+    if(d){
+      portObject.delete(n);
+    }
   };
   
   $scope.generate = function(){
