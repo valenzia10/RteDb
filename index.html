@@ -12,8 +12,11 @@
   <div ng-view />
   
   <script type="text/ng-template" id="port-list-view.html">
-    <sppan> Import data from JSON file: </span>
+    <span> Import data from JSON file: </span>
     <input type="file" custom-on-change="importJson" />
+    
+    <span> Parse C file: </span>
+    <input type="file" custom-on-change="parseC" />
     
     <br/>
     <p> Add a new port, or select an existing one to edit it </p>

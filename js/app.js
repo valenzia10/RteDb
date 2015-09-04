@@ -30,7 +30,40 @@ rteDbApp.factory('portObject', function() {
     };
     
     portObjectService.populateFromJson = function(s){
-      port_list = eval('('+s+')');
+      port_list = eval('(' + s + ')');
+    };
+    
+    portObjectService.populateFromC = function(s){
+      var re;
+      var re_result = null;
+      // Find and add regular ports
+      
+      // Find and add converted ports
+      
+      // Find and add stubbed ports
+      re = /DEFINE_STUBBED_PORT.+/g;
+      re_result = s.match(re);
+      if(re_result){
+        var rs;
+        var stub;
+        
+        for(var i=0; i < re_result.length; i++){
+          re = /PORT\s*\(\s*(\w+)\s*,\s*(\w+)\s*,\s*(\d+\.?\d*)/g;
+          rs = re.exec(re_result[i]);
+          
+          stub = {
+            "name": rs[2],
+            "provider": "Stub",
+            "data_type": rs[1],
+            "initial": rs[3],
+            "signal_type": "Stub"
+          };
+          
+          port_list[rs[2]] = stub; 
+        }
+        
+        alert(JSON.stringify(port_list));
+      }
     };
     
     portObjectService.add = function(n,p){
@@ -163,17 +196,30 @@ rteDbApp.controller('portsController', function($scope, portObject){
   $scope.ports = portObject.ports();
   
   $scope.importJson = function(event){
-        var files = event.target.files;
-        var reader = new FileReader();
+      var files = event.target.files;
+      var reader = new FileReader();
 
-				reader.onload = function(e) {
-					portObject.populateFromJson(reader.result);
-          $scope.$apply(function(){
-            $scope.ports = portObject.ports();
-          });
-				}
-        reader.readAsText(files[0]);
-    };
+      reader.onload = function(e) {
+        portObject.populateFromJson(reader.result);
+        $scope.$apply(function(){
+          $scope.ports = portObject.ports();
+        });
+      }
+      reader.readAsText(files[0]);
+  };
+    
+  $scope.parseC = function(event){
+      var files = event.target.files;
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        portObject.populateFromC(reader.result);
+        $scope.$apply(function(){
+          $scope.ports = portObject.ports();
+        });
+      }
+      reader.readAsText(files[0]);
+  };
   
   $scope.clicked = function(n){
     if(n){
