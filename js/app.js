@@ -36,8 +36,42 @@ rteDbApp.factory('portObject', function() {
     portObjectService.populateFromC = function(s){
       var re;
       var re_result = null;
-      // Find and add regular ports
       
+      // Find and add regular ports
+      re = /DEFINE_PORT.+/g;
+      re_result = s.match(re);
+      if(re_result){
+        var rs;
+        var port;
+        
+        for(var i=0; i < re_result.length; i++){
+          re = /PORT\s*\(\s*(\w+)\s*,\s*(\w+)\s*,\s*(\d+\.?\d*)\s*,\s*(\w+_SIGNAL)\s*,\s*(\w+)/g;
+          rs = re.exec(re_result[i]);
+          
+          port = {
+            "name": rs[2],
+            "data_type": rs[1],
+            "initial": rs[3],
+          };
+          
+          switch(rs[4]){
+            case "INTERNAL_SIGNAL":
+              port.signal_type = "Internal";
+              break;
+            case "TX_SIGNAL":
+              port.signal_type = "Tx";
+              port.can_signal = rs[5].substr(4,rs[5].length).toLowerCase();
+              break;
+            case "RX_SIGNAL":
+              port.signal_type = "Rx";
+              port.provider = "COM";
+              port.can_signal = rs[5].substr(4,rs[5].length).toLowerCase();
+              break;
+          }
+          
+          port_list[rs[2]] = port; 
+        }
+      }
       // Find and add converted ports
       
       // Find and add stubbed ports
@@ -61,8 +95,6 @@ rteDbApp.factory('portObject', function() {
           
           port_list[rs[2]] = stub; 
         }
-        
-        alert(JSON.stringify(port_list));
       }
     };
     
