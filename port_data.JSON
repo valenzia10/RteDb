@@ -1,0 +1,52 @@
+{
+"signalA":
+    {
+    "name": "signalA",
+    "provider": "InjectorStrategy",
+    "data_type": "BOOL",
+    "initial": "0",
+    "unit": "-",
+    "resolution": "1",
+    "offset": "0",
+    "signal_type": "Internal",
+    },
+"signalB":
+    {
+    "name": "signalB",
+    "provider": "PumpingStrategy",
+    "data_type": "UI_8",
+    "initial": "0",
+    "unit": "V",
+    "resolution": "0.001",
+    "offset": "0",
+    "signal_type": "Tx",
+    "can_signal": "MotorSpeed",
+    "can_resolution": "0.25",
+    "can_offset": "-100",
+    },
+"signalC":
+    {
+    "name": "signalC",
+    "provider": "COM",
+    "data_type": "UI_32",
+    "initial": "1",
+    "unit": "rpm",
+    "resolution": "0.25",
+    "offset": "-4",
+    "signal_type": "Tx",
+    "can_signal": "MotorRpm",
+    "can_resolution": "0.25",
+    "can_offset": "-4",
+    },
+"signalD":
+    {
+    "name": "signalD",
+    "provider": "Stub",
+    "data_type": "BOOL",
+    "initial": "0",
+    "unit": "-",
+    "resolution": "1",
+    "offset": "0",
+    "signal_type": "Stub",
+    },
+}

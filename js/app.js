@@ -23,9 +23,15 @@ rteDbApp.config(['$routeProvider', function($routeProvider){
 // Services
 rteDbApp.factory('portObject', function() {
     var portObjectService = {};
-    var port_list = port_data;
+    var port_list = {};
       
-    portObjectService.ports = port_list;
+    portObjectService.ports = function(){
+      return port_list;
+    };
+    
+    portObjectService.populateFromJson = function(s){
+      port_list = eval('('+s+')');
+    };
     
     portObjectService.add = function(n,p){
       port_list[n] = p;
@@ -141,9 +147,33 @@ rteDbApp.factory('portObject', function() {
 });
 
 
+// Directives
+rteDbApp.directive('customOnChange', function() {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      var onChangeHandler = scope.$eval(attrs.customOnChange);
+      element.bind('change', onChangeHandler);
+    }
+  };
+});
+
 // Controllers
 rteDbApp.controller('portsController', function($scope, portObject){
-  $scope.ports = portObject.ports;
+  $scope.ports = portObject.ports();
+  
+  $scope.importJson = function(event){
+        var files = event.target.files;
+        var reader = new FileReader();
+
+				reader.onload = function(e) {
+					portObject.populateFromJson(reader.result);
+          $scope.$apply(function(){
+            $scope.ports = portObject.ports();
+          });
+				}
+        reader.readAsText(files[0]);
+    };
   
   $scope.clicked = function(n){
     if(n){
