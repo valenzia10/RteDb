@@ -58,7 +58,12 @@ rteDbApp.factory('portObject', function() {
       // Open header file
       h_file += '#ifndef _FICORTE_H_\n';
       h_file += '#define _FICORTE_H_\n\n';
-       h_file += '#include "Rte_DeclareMacro.h"\n\n';
+       h_file += '#include "Global.h"\n';
+      h_file += '#include "Rte_DeclareMacro.h"\n\n';
+      
+      // Open source file
+      c_file += '#include "FicoRte.h"\n';
+      c_file += '#include "Rte_DefineMacro.h"\n\n';
       
       for(var p in port_list){
         // Generate db entry
@@ -73,17 +78,55 @@ rteDbApp.factory('portObject', function() {
         h_file += 'DECLARE_PORT(' + port_list[p].data_type + ', ' + port_list[p].name  + ')\n';
         
         // Generate source file entry
-        // switch(port_list[p].signal_type){
-        //   case 'Internal':
-        //     break;
-        //   case 'Rx':
-        //   case 'Tx':
-        //     break;
-        //   case 'Stub':
-        //     break;
-        //   default:
-        //     break;
-        // }
+        switch(port_list[p].signal_type){
+          case 'Internal':
+            c_file += 'DEFINE_PORT(' +  port_list[p].data_type + ', ' + port_list[p].name  
+                      + ', ' + port_list[p].initial + ', INTERNAL_SIGNAL, 0)\n';
+            break;
+            
+          case 'Rx':
+          case 'Tx':
+            var macro_to_use = '';
+            var conversion_to_use = '';
+            
+            // Chceck whether converion is needed
+            if(port_list[p].resolution != port_list[p].can_resolution
+               || port_list[p].offset != port_list[p].can_offset){
+              macro_to_use = 'DEFINE_CONVERTED_PORT(';
+              
+              var total_res = port_list[p].can_resolution / port_list[p].resolution;
+              var total_offs = (port_list[p].can_offset - port_list[p].offset)
+                               / port_list[p].resolution;
+              
+              conversion_to_use = ', ' + total_res + ', ' + total_offs + ', FL_32, '
+                                  + 't_sig_' + port_list[p].can_signal.toLowerCase();
+              
+            }else{
+              macro_to_use = 'DEFINE_PORT(';
+              conversion_to_use = '';
+            }
+            
+            c_file += macro_to_use +  port_list[p].data_type + ', ' + port_list[p].name  
+                    + ', ' + port_list[p].initial;
+                    
+            if(port_list[p].signal_type === 'Tx'){
+              c_file += ', TX_SIGNAL, ';
+            }else{
+              c_file += ', RX_SIGNAL, ';
+            }
+            
+            c_file += 'SIG_' +  port_list[p].can_signal.toUpperCase()
+                      + conversion_to_use + ')\n';
+            break;
+            
+          case 'Stub':
+            c_file += 'DEFINE_STUBBED_PORT(' +  port_list[p].data_type + ', ' + port_list[p].name  
+                      + ', ' + port_list[p].initial + ')\n';
+            break;
+            
+          default:
+            break;
+        }
       }
         // Close db file
         db_file += '}';
@@ -119,6 +162,7 @@ rteDbApp.controller('portsController', function($scope, portObject){
     // Open new windows with files content
     window.open('data:text/plain;charset=utf-8,' + encodeURIComponent(portObject.generateFiles()[0]));
     window.open('data:text/plain;charset=utf-8,' + encodeURIComponent(portObject.generateFiles()[1]));
+    window.open('data:text/plain;charset=utf-8,' + encodeURIComponent(portObject.generateFiles()[2]));
   };
 });
 
