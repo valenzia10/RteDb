@@ -48,9 +48,17 @@ rteDbApp.factory('portObject', function() {
     };
     
     portObjectService.generateFiles = function(){
-      var db_file = "{\n";
+      var db_file = "";
       var h_file = "";
       var c_file = "";
+      
+      // Open DB file
+      db_file += '{\n';
+      
+      // Open header file
+      h_file += '#ifndef _FICORTE_H_\n';
+      h_file += '#define _FICORTE_H_\n\n';
+       h_file += '#include "Rte_DeclareMacro.h"\n\n';
       
       for(var p in port_list){
         // Generate db entry
@@ -62,7 +70,7 @@ rteDbApp.factory('portObject', function() {
         db_file += '    },\n';
         
         // Generate header file entry
-        
+        h_file += 'DECLARE_PORT(' + port_list[p].data_type + ', ' + port_list[p].name  + ')\n';
         
         // Generate source file entry
         // switch(port_list[p].signal_type){
@@ -78,7 +86,10 @@ rteDbApp.factory('portObject', function() {
         // }
       }
         // Close db file
-        db_file += "}";
+        db_file += '}';
+        
+        // Close h file
+        h_file += '\n#endif';
         
         return [db_file, h_file, c_file];
     }
@@ -107,6 +118,7 @@ rteDbApp.controller('portsController', function($scope, portObject){
   $scope.generate = function(){
     // Open new windows with files content
     window.open('data:text/plain;charset=utf-8,' + encodeURIComponent(portObject.generateFiles()[0]));
+    window.open('data:text/plain;charset=utf-8,' + encodeURIComponent(portObject.generateFiles()[1]));
   };
 });
 
