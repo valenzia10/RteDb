@@ -267,15 +267,21 @@ rteDbApp.directive('customOnChange', function() {
 
 // Filters
 rteDbApp.filter('orderObjectBy', function() {
-  return function(items, field, reverse) {
+  return function(items, field, string_to_match) {
     var filtered = [];
+    var re;
+    
     angular.forEach(items, function(item) {
-      filtered.push(item);
+      re = new RegExp(string_to_match,'g');
+      if(String(item[field]).match(re)){
+        filtered.push(item);
+      }
     });
+    
     filtered.sort(function (a, b) {
       return (a[field] > b[field] ? 1 : -1);
     });
-    if(reverse) filtered.reverse();
+    
     return filtered;
   };
 });
@@ -283,7 +289,7 @@ rteDbApp.filter('orderObjectBy', function() {
 // Controllers
 rteDbApp.controller('portsController', function($scope, portObject){
   $scope.sortField = 'name';
-  $scope.sortReverse = false;
+  $scope.filterString = '';
   
   $scope.ports = portObject.ports();
   

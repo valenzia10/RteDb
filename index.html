@@ -26,10 +26,12 @@
     <br/>
     <p> Add a new port, or select an existing one to edit it </p>
     
+    <span> Select column and write to filter (case sensitive):</span> <input type="text" ng-model="filterString"/>
+    
     <table id="port-list">
       <thead>
         <tr>
-          <th> <a href="#/" ng-click="sortField = 'name';'"> Name </a> </td>
+          <th> <a href="#/" ng-click="sortField = 'name'; filterString = ''"> Name </a> </td>
           <th> <a href="#/" ng-click="sortField = 'provider'"> Provider SW-C </a> </td>
           <th> <a href="#/" ng-click="sortField = 'signal_type'"> Signal Type </a> </td>
           <th> <a href="#/" ng-click="sortField = 'data_type'"> Data type </a> </td>
@@ -37,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="port in ports | orderObjectBy:sortField:sortReverse">
+        <tr ng-repeat="port in ports | orderObjectBy:sortField:filterString">
           <td> {{port.name}} </td>
           <td> {{port.provider}} </td>
           <td> {{port.signal_type}} </td>
