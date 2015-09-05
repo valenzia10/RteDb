@@ -24,10 +24,13 @@
     <input type="file" custom-on-change="parseC" />
     
     <br/>
+    <button ng-click="generate()"> Generate DB and code files </button>
+    <br/>
     <p> Add a new port, or select an existing one to edit it </p>
-    
+    <button ng-click="clicked(false)"> Add a new port </button>
+    <br/>
     <span> Select column and write to filter (case sensitive):</span> <input type="text" ng-model="filterString"/>
-    
+    <br/>
     <table id="port-list">
       <thead>
         <tr>
@@ -49,11 +52,6 @@
         </tr>
       </tbody>
     </table>
-    
-    <button ng-click="clicked(false)"> Add a new port </button>
-    <br/>
-    <br/>
-    <button ng-click="generate()"> Generate DB and code files </button>
   </script>  
   
   <script type="text/ng-template" id="port-info-view.html">
