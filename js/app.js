@@ -48,7 +48,7 @@ rteDbApp.factory('portObject', function() {
         var port;
         
         for(var i=0; i < re_result.length; i++){
-          re = /PORT\s*\(\s*(\w+)\s*,\s*(\w+)\s*,\s*(\d+\.?\d*)\s*,\s*(\w+_SIGNAL)\s*,\s*(\w+)/g;
+          re = /PORT\s*\(\s*(\w+)\s*,\s*(\w+)\s*,\s*(-?\d+\.?\d*)\s*,\s*(\w+_SIGNAL)\s*,\s*(\w+)/g;
           rs = re.exec(re_result[i]);
           
           port = {
@@ -75,7 +75,46 @@ rteDbApp.factory('portObject', function() {
           port_list[rs[2]] = port; 
         }
       }
+      
       // Find and add converted ports
+      re = /DEFINE_CONVERTED_PORT.+/g;
+      re_result = s.match(re);
+      if(re_result){
+        var rs;
+        var port;
+        
+        for(var i=0; i < re_result.length; i++){
+          re = /PORT\s*\(\s*(\w+)\s*,\s*(\w+)\s*,\s*(-?\d+\.?\d*)\s*,\s*(\w+_SIGNAL)\s*,\s*(\w+)\s*,\s*(-?\d+\.?\d*)\s*,\s*(-?\d+\.?\d*)/g;
+          rs = re.exec(re_result[i]);
+          
+          port = {
+            "name": rs[2],
+            "data_type": rs[1],
+            "initial": rs[3],
+            "resolution": 1,
+            "offset": 0
+          };
+          
+          // Remove 'SIG_' prefix to CAN signal name
+          port.can_signal = rs[5].substr(4,rs[5].length).toLowerCase(); 
+          
+          port.can_resolution = rs[6];
+          port.can_offset = rs[7];
+
+          // Converted ports are always CAN signals                    
+          switch(rs[4]){
+            case "TX_SIGNAL":
+              port.signal_type = "Tx";
+              break;
+            case "RX_SIGNAL":
+              port.signal_type = "Rx";
+              port.provider = "COM";
+              break;
+          }
+          
+          port_list[rs[2]] = port; 
+        }
+      }
       
       // Find and add stubbed ports
       re = /DEFINE_STUBBED_PORT.+/g;
@@ -85,7 +124,7 @@ rteDbApp.factory('portObject', function() {
         var stub;
         
         for(var i=0; i < re_result.length; i++){
-          re = /PORT\s*\(\s*(\w+)\s*,\s*(\w+)\s*,\s*(\d+\.?\d*)/g;
+          re = /PORT\s*\(\s*(\w+)\s*,\s*(\w+)\s*,\s*(-?\d+\.?\d*)/g;
           rs = re.exec(re_result[i]);
           
           stub = {
