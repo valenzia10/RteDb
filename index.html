@@ -3,6 +3,11 @@
 
 <head>
   <title> RteDb - Port definition tool  </title>
+  <style>
+    table tr:nth-child(2n){
+      background-color: #aaa;
+    }
+  </style>
 </head>
 
 <body>
@@ -22,17 +27,25 @@
     <p> Add a new port, or select an existing one to edit it </p>
     
     <table id="port-list">
-      <tr>
-        <td> Name </td>
-        <td> Provider SW-C </td>
-        <td/>
-      </tr>
-      <tr ng-repeat="port in ports">
-        <td> {{port.name}} </td>
-        <td> {{port.provider}} </td>
-        <td> <button ng-click="clicked(port.name)"> Edit </button> </td>
-        <td> <button ng-click="remove(port.name)"> Delete </button> </td>
-      </tr>
+      <thead>
+        <tr>
+          <th> <a href="#/" ng-click="sortField = 'name';'"> Name </a> </td>
+          <th> <a href="#/" ng-click="sortField = 'provider'"> Provider SW-C </a> </td>
+          <th> <a href="#/" ng-click="sortField = 'signal_type'"> Signal Type </a> </td>
+          <th> <a href="#/" ng-click="sortField = 'data_type'"> Data type </a> </td>
+          <th/>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="port in ports | orderObjectBy:sortField:sortReverse">
+          <td> {{port.name}} </td>
+          <td> {{port.provider}} </td>
+          <td> {{port.signal_type}} </td>
+          <td> {{port.data_type}} </td>
+          <td> <button ng-click="clicked(port.name)"> Edit </button> </td>
+          <td> <button ng-click="remove(port.name)"> Delete </button> </td>
+        </tr>
+      </tbody>
     </table>
     
     <button ng-click="clicked(false)"> Add a new port </button>

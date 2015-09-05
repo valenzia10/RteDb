@@ -265,8 +265,26 @@ rteDbApp.directive('customOnChange', function() {
   };
 });
 
+// Filters
+rteDbApp.filter('orderObjectBy', function() {
+  return function(items, field, reverse) {
+    var filtered = [];
+    angular.forEach(items, function(item) {
+      filtered.push(item);
+    });
+    filtered.sort(function (a, b) {
+      return (a[field] > b[field] ? 1 : -1);
+    });
+    if(reverse) filtered.reverse();
+    return filtered;
+  };
+});
+
 // Controllers
 rteDbApp.controller('portsController', function($scope, portObject){
+  $scope.sortField = 'name';
+  $scope.sortReverse = false;
+  
   $scope.ports = portObject.ports();
   
   $scope.importJson = function(event){
